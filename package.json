@@ -5,7 +5,7 @@
   "description": "Helper library for handling and configuring Push Notifications in Firefox OS",
   "repository": {
     "type": "git",
-    "url": "git://github.com/arcturus/ffospushhelper.git"
+    "url": "https://github.com/arcturus/ffos-pushhelper"
   },
   "keywords": [],
   "author": "Francisco Jordano",

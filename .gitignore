@@ -5,7 +5,6 @@ tmp/
 logs/
 log/
 results/
-dist
 demo/ffospushhelper.js
 
 *.seed
