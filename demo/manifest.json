@@ -1,0 +1,24 @@
+{
+  "name": "PushHelper Test",
+  "description": "Firefox OS PushHelper Example",
+  "launch_path": "/index.html",
+  "orientation": "portrait",
+  "type": "privileged",
+  "developer": {
+    "name": "Francisco Jordano",
+    "url": "http://github.com/arcturus"
+  },
+  "default_locale": "en",
+  "icons": {
+    "60": "/icons/icon.png"
+  },
+  "permissions": {
+    "desktop-notification": {},
+    "push": {},
+    "systemXHR": {}
+  },
+  "messages": [
+    { "push": "/index.html"},
+    { "notification": "/index.html" }
+  ]
+}
