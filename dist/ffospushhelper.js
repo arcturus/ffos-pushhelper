@@ -148,7 +148,7 @@ var PushHelper = (function PushHelper() {
       }
 
       if (channel.resolver) {
-        channel.resolver(channel.data);
+        channel.resolver(version, endPoint, channel.data);
       } else {
         channel.data();
       }
@@ -163,8 +163,8 @@ var PushHelper = (function PushHelper() {
 
 })();
 
-if (!module && window) {
+if (typeof module === undefined && window) {
   window.PushHelper = PushHelper;
-} else if (module) {
+} else if (!window) {
   module.exports = PushHelper;
 }
