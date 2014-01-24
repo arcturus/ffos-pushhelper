@@ -31,7 +31,9 @@ window.PushHelper.listen('messages',
   function(message) {
     alert(message);
   }
-).register(function(channels) {
+);
+
+window.PushHelper.register(function(channels) {
   var channel = channels[0];
   var data = new FormData();
   data.append('client', channel.endPoint);
@@ -43,4 +45,6 @@ window.PushHelper.listen('messages',
         alert('Register to receive push notifications');
       }
     });
-}).init();
+});
+
+window.PushHelper.init();

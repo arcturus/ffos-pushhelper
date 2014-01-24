@@ -76,8 +76,6 @@ var PushHelper = (function PushHelper() {
     channel.name = channelName;
 
     CHANNELS.push(channel);
-
-    return PushHelper;
   };
 
   // Check if the channels that we are listening are not registered
