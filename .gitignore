@@ -5,6 +5,7 @@ tmp/
 logs/
 log/
 results/
+dist
 
 *.seed
 *.log
