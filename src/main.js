@@ -1,4 +1,5 @@
 /* global window, module, localStorage, navigator, console */
+/* jshint -W078 */
 'use strict';
 
 
@@ -32,13 +33,20 @@ var PushHelper = (function PushHelper() {
 
   var errors = [];
 
+  var DEBUG = false;
+
   // Try to fetch the specific channel from the storage.
   // Currently using localStorage and making this sync, but in the
   // future this should change to any kind of async storage.
   //
   // @param channelName String
   var getChannelFromStore = function getChannelFromStore(channelName) {
-    return localStorage[channelName];
+    if (DEBUG) {
+      console.log('Do I have channel ' + channelName);
+    }
+
+    var value = localStorage[channelName];
+    return value ? JSON.parse(value) : null;
   };
 
   // Save the current channel to storage.
@@ -46,7 +54,11 @@ var PushHelper = (function PushHelper() {
   //
   // @param channel Object Channel object
   var saveChannelToStore = function saveChannelToStore(channel) {
-    localStorage[channel.name] = channel;
+    var simpleChannel = {
+      name: channel.name,
+      endPoint: channel.endPoint
+    };
+    localStorage[channel.name] = JSON.stringify(simpleChannel);
   };
 
   // Setup a new channel from which we want to receive notifications.
@@ -76,6 +88,9 @@ var PushHelper = (function PushHelper() {
     channel.name = channelName;
 
     CHANNELS.push(channel);
+    if (DEBUG) {
+      console.log('Channels is ' + CHANNELS);
+    }
   };
 
   // Check if the channels that we are listening are not registered
@@ -92,16 +107,24 @@ var PushHelper = (function PushHelper() {
     CHANNELS.forEach(function onChannel(channel) {
       if (!channel.endPoint) {
         doRegister(channel);
+      } else if (DEBUG) {
+        console.log('We already have the channel ' + channel.endPoint);
       }
     });
   };
 
   // Register a new channel for a new endpoint
   var doRegister = function doRegister(channel) {
+    if (DEBUG) {
+      console.log('Registering channel ' + channel.name + ' (performing navigator.push.register)');
+    }
     var req = navigator.push.register();
     pendingRegisters++;
 
-    req.onsucces = function onSuccess() {
+    req.onsuccess = function onSuccess() {
+      if (DEBUG) {
+        console.log('Successfully registered channel ' + channel.name);
+      }
       var endPoint = req.result;
       channel.endPoint = endPoint;
       saveChannelToStore(channel);
@@ -110,6 +133,9 @@ var PushHelper = (function PushHelper() {
     };
 
     req.onerror = function onError() {
+      if (DEBUG) {
+        console.log('Error registering channel ' + channel.name);
+      }
       errors.push({
         'type': 'register',
         'data': channel.name
@@ -123,6 +149,9 @@ var PushHelper = (function PushHelper() {
   // call the onRegister callback if present.
   var checkRegister = function checkRegister() {
     if (pendingRegisters === 0 && onRegister !== null) {
+      if (DEBUG) {
+        console.log('Finished the registering, telling the server ' + JSON.stringify(CHANNELS));
+      }
       onRegister(CHANNELS);
     }
   };
@@ -132,9 +161,10 @@ var PushHelper = (function PushHelper() {
     window.navigator.mozSetMessageHandler('push', function(evt) {
       var endPoint = evt.pushEndpoint;
       var version = evt.version;
+      console.log('Receivied a push message: ' + endPoint + ' : ' + version);
 
       var channel = CHANNELS.find(function searchChannel(el) {
-        if (el.name === endPoint) {
+        if (el.endPoint === endPoint) {
           return el;
         }
       });
@@ -156,7 +186,10 @@ var PushHelper = (function PushHelper() {
   return {
     'listen': listen,
     'register': register,
-    'init': init
+    'init': init,
+    set debug(bol) {
+      DEBUG = !!bol;
+    }
   };
 
 })();

@@ -17,17 +17,20 @@ var doRequest = function doPost(type, uri, data, cb) {
   xhr.send(data);
 };
 
+window.PushHelper.debug = true;
+
 window.PushHelper.listen('messages', 
   function(version, endPoint, callback) {
     doRequest('GET', 'http://simplepushclient.eu01.aws.af.cm/api/v1/' +
-      version + '?client=' + endPoint,
+      version + '?client=' + endPoint, null,
       function(err, data) {
         if (err) {
           alert('Cannot get message with version ' + version);
+        } else {
+          callback(data);
         }
-        callback(data);
       });
-  }, 
+  },
   function(message) {
     alert(message);
   }
