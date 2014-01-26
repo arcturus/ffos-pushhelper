@@ -109,6 +109,7 @@ var PushHelper = (function PushHelper() {
         doRegister(channel);
       } else if (DEBUG) {
         console.log('We already have the channel ' + channel.endPoint);
+	checkRegister();
       }
     });
   };
