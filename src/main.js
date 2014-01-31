@@ -59,6 +59,9 @@ var PushHelper = (function PushHelper() {
       endPoint: channel.endPoint
     };
     localStorage[channel.name] = JSON.stringify(simpleChannel);
+    // Also save a key with the channel endpoint containing the name
+    // for double lookup
+    localStorage[channel.endPoint] = channel.name;
   };
 
   // Setup a new channel from which we want to receive notifications.
