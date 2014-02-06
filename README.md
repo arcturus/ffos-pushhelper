@@ -109,3 +109,7 @@ We'll do our best to help you out with any contribution issues you may have.
 ## License
 
 MIT. See `LICENSE.txt` in this directory.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/arcturus/ffos-pushhelper/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
