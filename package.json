@@ -1,6 +1,6 @@
 {
   "name": "ffospushhelper",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/ffospushhelper.min.js",
   "description": "Helper library for handling and configuring Push Notifications in Firefox OS",
   "repository": {

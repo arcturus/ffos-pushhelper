@@ -187,10 +187,24 @@ var PushHelper = (function PushHelper() {
     });
   };
 
+  // Removes any trace of configuration from localStorage
+  var reset = function reset(channelNames) {
+    if (!channelNames || !Array.isArray(channelNames)) {
+      return;
+    }
+
+    channelNames.forEach(function (channel) {
+      var info = JSON.parse(localStorage[channel]);
+      delete localStorage[info.endPoint];
+      delete localStorage[channel];
+    });
+  };
+
   return {
     'listen': listen,
     'register': register,
     'init': init,
+    'reset': reset,
     set debug(bol) {
       DEBUG = !!bol;
     }
