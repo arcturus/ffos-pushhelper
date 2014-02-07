@@ -193,6 +193,8 @@ var PushHelper = (function PushHelper() {
       return;
     }
 
+    CHANNELS = [];
+
     channelNames.forEach(function (channel) {
       var info = JSON.parse(localStorage[channel]);
       delete localStorage[info.endPoint];
