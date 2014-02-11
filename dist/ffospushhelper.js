@@ -27,6 +27,9 @@ var PushHelper = (function PushHelper() {
   // ];
   //
   var CHANNELS = [];
+  // List of previous channels already that
+  // were successfully registered
+  var REGISTEREDCHANNELS = [];
 
   var pendingRegisters = 0;
   var onRegister = null;
@@ -58,6 +61,7 @@ var PushHelper = (function PushHelper() {
       name: channel.name,
       endPoint: channel.endPoint
     };
+    REGISTEREDCHANNELS.push(simpleChannel);
     localStorage[channel.name] = JSON.stringify(simpleChannel);
     // Also save a key with the channel endpoint containing the name
     // for double lookup
@@ -156,7 +160,7 @@ var PushHelper = (function PushHelper() {
       if (DEBUG) {
         console.log('Finished the registering, telling the server ' + JSON.stringify(CHANNELS));
       }
-      onRegister(CHANNELS);
+      onRegister(REGISTEREDCHANNELS);
     }
   };
 
