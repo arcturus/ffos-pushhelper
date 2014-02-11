@@ -158,7 +158,7 @@ var PushHelper = (function PushHelper() {
   var checkRegister = function checkRegister() {
     if (pendingRegisters === 0 && onRegister !== null) {
       if (DEBUG) {
-        console.log('Finished the registering, telling the server ' + JSON.stringify(CHANNELS));
+        console.log('Finished the registering, telling the server ' + JSON.stringify(REGISTEREDCHANNELS));
       }
       onRegister(REGISTEREDCHANNELS);
     }
@@ -193,11 +193,11 @@ var PushHelper = (function PushHelper() {
 
   // Removes any trace of configuration from localStorage
   var reset = function reset(channelNames) {
+    CHANNELS = [];
+    REGISTEREDCHANNELS = [];
     if (!channelNames || !Array.isArray(channelNames)) {
       return;
     }
-
-    CHANNELS = [];
 
     channelNames.forEach(function (channel) {
       var info = JSON.parse(localStorage[channel]);
