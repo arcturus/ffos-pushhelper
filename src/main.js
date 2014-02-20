@@ -164,6 +164,21 @@ var PushHelper = (function PushHelper() {
     }
   };
 
+  function findChannel(endPoint) {
+    var result;
+    if (!CHANNELS) {
+      return result;
+    }
+
+    CHANNELS.forEach(function (el) {
+      if (el.endPoint === endPoint) {
+        result = el;
+      }
+    });
+
+    return result;
+  }
+
   // Start the process, will listen for any incoming push notifications.
   var init = function init() {
     window.navigator.mozSetMessageHandler('push', function(evt) {
@@ -171,11 +186,7 @@ var PushHelper = (function PushHelper() {
       var version = evt.version;
       console.log('Receivied a push message: ' + endPoint + ' : ' + version);
 
-      var channel = CHANNELS.find(function searchChannel(el) {
-        if (el.endPoint === endPoint) {
-          return el;
-        }
-      });
+      var channel = findChannel(endPoint);
 
       // Warn and don't err, if channel not registered
       if (channel === undefined) {
